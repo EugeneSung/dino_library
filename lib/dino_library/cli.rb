@@ -4,7 +4,7 @@ require 'nokogiri'
 require 'colorize'
 
 
-class DinosaurDic::CLI
+class DinoLibrary::CLI
   BASE_URL = 'https://en.m.wikipedia.org/wiki/'
 
   def call
@@ -43,15 +43,15 @@ class DinosaurDic::CLI
   end
 
   def make_dinosaurs
-    dinosaurs_array = DinosaurDic::Scraper.create_project_hash
-    DinosaurDic::Dinosaur.create_from_collection(dinosaurs_array)
+    dinosaurs_array = DinoLibrary::Scraper.create_project_hash
+    DinoLibrary::Dinosaur.create_from_collection(dinosaurs_array)
 
   end
 
   def display_dinosaurs
 
 
-    DinosaurDic::Dinosaur.all.each do |dinosaur|
+    DinoLibrary::Dinosaur.all.each do |dinosaur|
       if dinosaur.name.length < 2
         puts "============================================================================".colorize(:yellow)
         puts "#{dinosaur.name.upcase}".colorize(:red)
@@ -70,7 +70,7 @@ class DinosaurDic::CLI
     puts "Please choose a letter(A-Z):"
     input = gets.strip
 
-    DinosaurDic::Dinosaur.all.each do |dinosaur|
+    DinoLibrary::Dinosaur.all.each do |dinosaur|
       letters = []
       letters = dinosaur.name.split("")
       letter = letters[0]
@@ -96,7 +96,7 @@ class DinosaurDic::CLI
     puts "Please choose a name of dinosaurs:"
     input = gets.strip
 
-    dinosaur = DinosaurDic::Dinosaur.all.detect{|dino| dino.name.downcase == input.downcase}
+    dinosaur = DinoLibrary::Dinosaur.all.detect{|dino| dino.name.downcase == input.downcase}
     #binding.pry
     if dinosaur != nil && dinosaur.name.length > 2
       add_attributes_to_dinosaur(dinosaur)
@@ -116,7 +116,7 @@ class DinosaurDic::CLI
   end
   def add_attributes_to_dinosaur(dinosaur)
 
-        attributes = DinosaurDic::Scraper.scrape_wiki_page(BASE_URL + dinosaur.name)
+        attributes = DinoLibrary::Scraper.scrape_wiki_page(BASE_URL + dinosaur.name)
         #binding.pry
         dinosaur.add_dinosaur_attributes(attributes)
 

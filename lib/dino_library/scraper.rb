@@ -1,7 +1,7 @@
 require 'open-uri'
 require 'pry'
 
-class DinosaurDic::Scraper
+class DinoLibrary::Scraper
 
   def self.create_project_hash
     # write your code here

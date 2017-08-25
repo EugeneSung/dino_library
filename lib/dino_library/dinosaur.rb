@@ -1,4 +1,4 @@
-class DinosaurDic::Dinosaur
+class DinoLibrary::Dinosaur
 
   attr_accessor :name, :description, :phylum,:clade, :kingdom, :url, :wiki_description
 
@@ -13,7 +13,7 @@ class DinosaurDic::Dinosaur
 
  def self.create_from_collection(dinosaurs_array)
    dinosaurs_array.each do |dinosaurs|
-     DinosaurDic::Dinosaur.new(dinosaurs)
+     DinoLibrary::Dinosaur.new(dinosaurs)
    end
  end
  def add_dinosaur_attributes(attributes_hash)

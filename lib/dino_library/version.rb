@@ -1,5 +1,4 @@
-module Dino
-  module Library
+module DinoLibrary
+
     VERSION = "0.1.0"
-  end
 end

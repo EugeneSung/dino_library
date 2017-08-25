@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
 require './lib/dino_library'
 
-DinosaurDic::CLI.new.call
+DinoLibrary::CLI.new.call
