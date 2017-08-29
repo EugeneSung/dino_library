@@ -1,6 +1,6 @@
 class DinoLibrary::Dinosaur
 
-  attr_accessor :name, :description, :phylum,:clade, :kingdom, :url, :wiki_description
+  attr_accessor :name, :description, :phylum,:clade, :kingdom, :url, :wiki_description, :id
 
   @@all = []
 
@@ -12,6 +12,7 @@ class DinoLibrary::Dinosaur
  end
 
  def self.create_from_collection(dinosaurs_array)
+
    dinosaurs_array.each do |dinosaurs|
      DinoLibrary::Dinosaur.new(dinosaurs)
    end

@@ -8,7 +8,7 @@ class DinoLibrary::CLI
   BASE_URL = 'https://en.m.wikipedia.org/wiki/'
 
   def call
-    puts puts "Welcome to Dinosaurs Dic"
+    puts puts "Welcome to Dinosaurs Library"
     make_dinosaurs
     run
     goodbye
@@ -21,7 +21,6 @@ class DinoLibrary::CLI
       puts "Which Dinosaur you are looking for?"
       puts "To see all of dinosaurs from A to Z, enter 'all'."
       puts "To see dinosaurs start with a specific letter, enter 'letter'."
-      puts "To see one specific dinosaur, enter 'one'"
       puts "To quit, enter 'exit':"
       puts ">>"
       input = gets.strip
@@ -52,19 +51,23 @@ class DinoLibrary::CLI
 
 
     DinoLibrary::Dinosaur.all.each do |dinosaur|
+      temp_arry = dinosaur.description.split("")
+
       if dinosaur.name.length < 2
         puts "============================================================================".colorize(:yellow)
         puts "#{dinosaur.name.upcase}".colorize(:red)
 
-      elsif dinosaur.name.length > 2
+      elsif dinosaur.name.length > 2 && temp_arry[0].upcase == temp_arry[0]
 
-        puts "#{dinosaur.name.upcase}".colorize(:red)
+        puts "ID: #{dinosaur.id} - #{dinosaur.name.upcase}".colorize(:red)
         puts "description: ".colorize(:light_blue) + "#{dinosaur.description}"
-        puts "URL:".colorize(:light_blue) + "#{dinosaur.url}"
-
+        if !dinosaur.url.empty?
+          puts "URL:".colorize(:light_blue) + "#{dinosaur.url}"
+          #binding.pry
+        end
       end
     end
-
+    want_to_see_one
   end
   def start_with_display
     puts "Please choose a letter(A-Z):"
@@ -74,46 +77,51 @@ class DinoLibrary::CLI
       letters = []
       letters = dinosaur.name.split("")
       letter = letters[0]
+      temp_arry = dinosaur.description.split("")
 
 
       if input.upcase == letter || input.downcase == letter
         if dinosaur.name.length < 2
           puts "Start with #{dinosaur.name.upcase}".colorize(:red)
 
-        elsif dinosaur.name.length > 2
+        elsif dinosaur.name.length > 2 && temp_arry[0].upcase == temp_arry[0]
 
 
 
-        puts "#{dinosaur.name.upcase}".colorize(:red)
+        puts "ID: #{dinosaur.id} - #{dinosaur.name.upcase}".colorize(:red)
         puts "description: ".colorize(:light_blue) + "#{dinosaur.description}"
-          puts "URL:".colorize(:light_blue) + "#{dinosaur.url}"
+        puts "URL:".colorize(:light_blue) + "#{dinosaur.url}" unless dinosaur.url.empty?
 
-      end
+        end
+     end
     end
-    end
+    want_to_see_one
   end
-  def display_one
-    puts "Please choose a name of dinosaurs:"
-    input = gets.strip
 
-    dinosaur = DinoLibrary::Dinosaur.all.detect{|dino| dino.name.downcase == input.downcase}
-    #binding.pry
-    if dinosaur != nil && dinosaur.name.length > 2
-      add_attributes_to_dinosaur(dinosaur)
+  def want_to_see_one
 
-      puts "----------------------------------------------------------------------------".colorize(:green)
-      puts "#{dinosaur.name.upcase}".colorize(:red)
-      puts "description: ".colorize(:light_blue) + "#{dinosaur.description}"
-      puts "URL:".colorize(:light_blue) + "#{dinosaur.url}"
-      puts "Wikipedia Description: ".colorize(:light_blue) + "#{dinosaur.wiki_description}"
+      input = " "
+      until input.downcase == "no"
+          puts "---------------------------------------------------------------------------------------------------".colorize(:green)
+          puts "If you want to see more details of the dinosaur, type Dinosaur ID(type 'no' to return to main menu)"
+          puts ">>"
+          input = gets.strip
 
-    else
-      display_one
-    end
+          dinosaur = DinoLibrary::Dinosaur.all.detect{|dino| dino.id == input.to_i}
+          #binding.pry
+          if dinosaur != nil && dinosaur.name.length > 2
+            add_attributes_to_dinosaur(dinosaur)
 
+            puts "---------------------------------------------------------------------------------------------------".colorize(:green)
+            puts "ID: #{dinosaur.id}: #{dinosaur.name.upcase}".colorize(:red)
+            puts "description: ".colorize(:light_blue) + "#{dinosaur.description}"
+            puts "URL:".colorize(:light_blue) + "#{dinosaur.url}" unless dinosaur.url == nil
+            puts "Wikipedia Description: ".colorize(:light_blue) + "#{dinosaur.wiki_description}"
 
-
+          end #dinosaur != nil && dinosaur.name.length > 2
+        end #input.downcase == "no"
   end
+
   def add_attributes_to_dinosaur(dinosaur)
 
         attributes = DinoLibrary::Scraper.scrape_wiki_page(BASE_URL + dinosaur.name)
@@ -122,7 +130,7 @@ class DinoLibrary::CLI
 
   end
 def goodbye
-  puts "Thank you for using Dinosaur Dic."
+  puts "Thank you for using Dinosaur Library."
   puts "Good bye."
 
 end

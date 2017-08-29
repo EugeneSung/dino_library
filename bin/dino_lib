@@ -1,4 +1,9 @@
 #!/usr/bin/env ruby
-require './lib/dino_library'
+require_relative '../lib/dino_library'
 
-DinoLibrary::CLI.new.call
+cli = DinoLibrary::CLI.new
+cli.call
+
+
+#after a user chooses all or letter, the list of dinosaurs is presented with a number next to each one
+#the user can then input a number and see the details of that specific dinosaur
